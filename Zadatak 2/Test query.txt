@@ -1,0 +1,61 @@
+﻿Pronaći ime najstarijeg člana posade:
+
+Query: 
+
+SELECT CONCAT(first_name, ' ', last_name) as name 
+FROM members
+ORDER BY age DESC
+LIMIT 0,1
+
+Response:
+
+John Peters
+
+
+Pronaći ime n-tog člana posade (po starosti):
+
+Query:
+
+SELECT CONCAT(first_name, ' ', last_name) as name 
+FROM members
+ORDER BY age DESC
+LIMIT N,1
+
+Response:
+
+Depends on N
+
+Napomena: N starta od 0 za prvog najstarijeg.
+
+
+Pronaći najiskusnijeg člana posade (poznaje najviše aviona):
+
+Query:
+
+SELECT CONCAT(first_name, ' ', last_name) as name, count(a.id) as planes
+FROM  members m
+JOIN  member_aircraft ON m.id = member_aircraft.member_id 
+JOIN  aircrafts a ON member_aircraft.aircraft_id = a.id 
+GROUP BY m.id
+LIMIT 0,1
+
+Response:
+
+Mark Collins | 4
+
+
+Pronaći nejneiskusnijeg člana posade (poznaje najmanje aviona -> 0 pa dalje)
+
+Query:
+
+SELECT CONCAT(first_name, ' ', last_name) as name, count(a.id) as planes
+FROM  members m
+LEFT JOIN  member_aircraft ON m.id = member_aircraft.member_id 
+LEFT JOIN  aircrafts a ON member_aircraft.aircraft_id = a.id 
+GROUP BY m.id
+ORDER BY planes
+LIMIT 0,1
+
+Response:
+
+Peter Rufus | 0
